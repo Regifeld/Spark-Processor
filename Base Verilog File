@@ -1,3 +1,29 @@
+`define add 		4'b0000
+'define sub   4'b0001
+'define sll   4'b0010
+'define srl   4'b0011
+'define ori   4'b0100
+'define slt   4'b0101
+'define lw    4'b0110
+'define sw    4'b0111
+'define beq   4'b1000
+'define bne   4'b1001
+'define j     4'b1010
+'define and   4'b1100
+'define or    4'b1101
+'define xor   4'b1110
+'define addi  4'b1111
+
+'define slti  3'101
+
+
+case(control)
+'slt: begin
+     if(function = slti)
+          slti
+     else
+          slt
+        
 din[15:0]
 
 
