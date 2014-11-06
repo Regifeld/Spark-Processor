@@ -3,6 +3,7 @@ din[15:0]
 
 control[3:0]
 
+HEY
 
 control = din[15:11];
 
