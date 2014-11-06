@@ -1,1 +1,37 @@
+din[15:0]
 
+
+control[3:0]
+
+
+control = din[15:11];
+
+
+function [2:0]
+
+
+rs[2:0]
+rt[2:0]
+rd[2:0]
+
+control = din[15:11]
+rs = din[10:8]
+rt = din[7:5]
+rd = din[5:3]
+function = din[2:0]
+
+always @* begin
+
+ case(control)
+ 
+  `add: begin 
+   add = 1;
+end
+
+always @(posedge clk or posedge reset) begin
+ qpre <= dpre;
+end
+
+always @(negedge clk or posedge reset) begin
+ qneg <= dpre;
+end
