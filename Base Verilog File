@@ -1,4 +1,5 @@
-`define add 		4'b0000
+//This is definitions for our instruction types
+`define add   4'b0000
 'define sub   4'b0001
 'define sll   4'b0010
 'define srl   4'b0011
@@ -14,31 +15,17 @@
 'define xor   4'b1110
 'define addi  4'b1111
 
+// This is a function for slti to distinguish from slt
 'define slti  3'101
 
+// input line     
+input [15:0] din;
 
-case(control)
-'slt: begin
-     if(function = slti)
-          slti
-     else
-          slt
-        
-din[15:0]
-
-
-control[3:0]
-
-
-control = din[15:11];
-
-
-function [2:0]
-
-
-rs[2:0]
-rt[2:0]
-rd[2:0]
+reg [3:0] control;
+reg [2:0] function;
+reg [2:0] rs;
+reg [2:0] rt;
+reg [2:0] rd;
 
 control = din[15:11]
 rs = din[10:8]
