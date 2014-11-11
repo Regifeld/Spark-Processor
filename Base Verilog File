@@ -26,7 +26,7 @@ reg [2:0] function;
 reg [2:0] rs;
 reg [2:0] rt;
 reg [2:0] rd;
-reg [2:0] sum;
+reg [2:0] result;
 
 control = din[15:11]
 rs = din[10:8]
@@ -44,9 +44,14 @@ end
 
 //ALU functions
 always @(posedge clk or posedge reset) begin
- sum = 0;
+ result = 0;
  if(add == 1)
-   sum = rs + rt;
+   result = rs + rt;
  if(sub == 1)
-   sum = rs - rt;
+   result = rs - rt;
+ if(and == 1)
+   result = rs & rt;
+ if(or == 1)
+   result = rs | rt;
+ rd = result;
 end
