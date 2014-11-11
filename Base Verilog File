@@ -26,6 +26,7 @@ reg [2:0] function;
 reg [2:0] rs;
 reg [2:0] rt;
 reg [2:0] rd;
+reg [2:0] sum;
 
 control = din[15:11]
 rs = din[10:8]
@@ -41,10 +42,11 @@ always @* begin
    add = 1;
 end
 
+//ALU functions
 always @(posedge clk or posedge reset) begin
- qpre <= dpre;
-end
-
-always @(negedge clk or posedge reset) begin
- qneg <= dpre;
+ sum = 0;
+ if(add == 1)
+   sum = rs + rt;
+ if(sub == 1)
+   sum = rs - rt;
 end
