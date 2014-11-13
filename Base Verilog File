@@ -1,46 +1,76 @@
 //This is definitions for our instruction types
-`define add   4'b0000
-'define sub   4'b0001
-'define sll   4'b0010
-'define srl   4'b0011
-'define ori   4'b0100
-'define slt   4'b0101
-'define lw    4'b0110
-'define sw    4'b0111
-'define beq   4'b1000
-'define bne   4'b1001
-'define j     4'b1010
-'define and   4'b1100
-'define or    4'b1101
-'define xor   4'b1110
-'define addi  4'b1111
+'define add1   4'b0000 
+'define sub1   4'b0001
+'define sll1   4'b0010
+'define srl1   4'b0011
+'define ori1   4'b0100
+'define slt1   4'b0101
+'define lw1    4'b0110
+'define sw1    4'b0111
+'define beq1   4'b1000
+'define bne1   4'b1001
+'define j1     4'b1010
+'define and1   4'b1100
+'define or1    4'b1101
+'define xor1   4'b1110
+'define addi1  4'b1111
 
 // This is a function for slti to distinguish from slt
-'define slti  3'101
+'define slti1  3'101
 
 // input line     
 input [15:0] din;
 
-
+//declare variables to store values from instruction input
 reg [3:0] control;
-reg [2:0] function;
+reg [2:0] funct;
 reg [2:0] rs;
 reg [2:0] rt;
 reg [2:0] rd;
+reg [5:0] imm;
+reg [11:0] addr;
 reg [3:0] result;
 
 //these are signals to send to the ALU after the opcodes come in
-reg [0] add;
-reg [0] sub;
-reg [0] and;
-reg [0] or;
+reg [0] add2;
+reg [0] sub2;
+reg [0] and2;
+reg [0] or2;
+reg [0] xor2;
 
 //assignment of current instruction values
 control = din[15:11]
-rs = din[10:8]
-rt = din[7:5]
-rd = din[5:3]
-function = din[2:0]
+//******THIS ONLY IMPLEMENTS R-INSTRUCTIONS NEED TO ADJUST FOR I AND J
+//Test if R instruction
+if((control == add1) || (control == sub1)
+ || (control == and1) || (control == or1) || (control == xor1) 
+ || (control == slt1)) begin
+{ 
+	rs = din[10:8];
+	rt = din[7:5];
+	rd = din[5:3];
+	funct = din[2:0];
+}
+//test if Immediate instruction
+end else if ((control == sll1) || (control == srl1) || (control == ori1)
+	|| (control == slti1) || (control == lw1) || (control == sw1) 
+	|| (control == beq1) || (control == bne1) || (control == addi1)) begin
+{
+	rs = din[10:8];
+	rt = din[7:5];
+	imm = din[4:0];
+}
+//test if jump instruction
+end else if (control == j1) begin 
+{
+	addr = din[10:0];
+}
+end else begin
+{
+  //print an error message
+}
+
+
 
 
 //control block - sets control signals
@@ -48,21 +78,35 @@ always @* begin
 
  case(control)
  
-  `add: begin 
-   add = 1;
-end
+  `add1: begin 
+     add2 = 1;
+   end
+  `sub1: begin
+     sub2 = 1;
+   end
+  `or1: begin
+     or2 = 1;
+  end
+  `ori1: begin
+     ori2 = 1;
+  end
+  `xor1: begin
+     xor2 = 1;
+  end
+ end
 
 //ALU Block - controls ALU functionality
 always @(posedge clk or posedge reset) begin
  result = 0;
- if(add == 1)
+ if(add2 == 1)
    result = rs + rt;
- if(sub == 1)
+ if(sub2 == 1)
    result = rs - rt;
- if(and == 1)
+ if(and2 == 1)
    result = rs & rt;
- if(or == 1)
+ if(or2 == 1)
    result = rs | rt;
+ //*****GOTTA IMPLEMENT IMMEDIATE AND JUMP INSTRUCTIONS
  if(rs[2] == 0 | rt[2] == 0 | result[2] == 1)
    //overflow have to put case for this
  if(rs[2] == 1 | rt[2] == 1 | result[2] == 0)
