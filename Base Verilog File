@@ -40,17 +40,20 @@ reg [0] xor2;
 
 //assignment of current instruction values
 control = din[15:11]
+funct = din[2:0]
 //Test if R instruction
 if((control == add1) || (control == sub1)
 	|| (control == and1) || (control == or1) || (control == xor1) 
 	|| (control == slt1)) begin
+	if((control == slt1) && (funct == slti)) begin
+	end else begin
 		rs = din[10:8];
 		rt = din[7:5];
 		rd = din[5:3];
-		funct = din[2:0];
+	end
 //test if Immediate instruction
 end else if ((control == sll1) || (control == srl1) || (control == ori1)
-	|| (control == slti1) || (control == lw1) || (control == sw1) 
+	|| (control == slt1) || (control == lw1) || (control == sw1) 
 	|| (control == beq1) || (control == bne1) || (control == addi1)) begin
 		rs = din[10:8];
 		rt = din[7:5];
