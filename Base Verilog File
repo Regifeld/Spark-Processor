@@ -98,18 +98,24 @@ always @* begin
 //ALU Block - controls ALU functionality
 always @(posedge clk or posedge reset) begin
  result = 0;
- if(add2 == 1)
+ if(add2 == 1) begin
    result = rs + rt;
- if(sub2 == 1)
+ end
+ if(sub2 == 1) begin
    result = rs - rt;
- if(and2 == 1)
+ end
+ if(and2 == 1) begin
    result = rs & rt;
- if(or2 == 1)
+ end
+ if(or2 == 1) begin
    result = rs | rt;
+ end
  //*****GOTTA IMPLEMENT IMMEDIATE AND JUMP INSTRUCTIONS
- if(rs[2] == 0 | rt[2] == 0 | result[2] == 1)
+ if(rs[2] == 0 | rt[2] == 0 | result[2] == 1) begin
    //overflow have to put case for this
- if(rs[2] == 1 | rt[2] == 1 | result[2] == 0)
+ end
+ if(rs[2] == 1 | rt[2] == 1 | result[2] == 0) begin
    //overflow again
  rd = result[2:0];
+ end
 end
