@@ -40,7 +40,6 @@ reg [0] xor2;
 
 //assignment of current instruction values
 control = din[15:11]
-//******THIS ONLY IMPLEMENTS R-INSTRUCTIONS NEED TO ADJUST FOR I AND J
 //Test if R instruction
 if((control == add1) || (control == sub1)
  || (control == and1) || (control == or1) || (control == xor1) 
