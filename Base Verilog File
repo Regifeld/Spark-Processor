@@ -42,32 +42,25 @@ reg [0] xor2;
 control = din[15:11]
 //Test if R instruction
 if((control == add1) || (control == sub1)
- || (control == and1) || (control == or1) || (control == xor1) 
- || (control == slt1)) begin
-{ 
-	rs = din[10:8];
-	rt = din[7:5];
-	rd = din[5:3];
-	funct = din[2:0];
-}
+	|| (control == and1) || (control == or1) || (control == xor1) 
+	|| (control == slt1)) begin
+		rs = din[10:8];
+		rt = din[7:5];
+		rd = din[5:3];
+		funct = din[2:0];
 //test if Immediate instruction
 end else if ((control == sll1) || (control == srl1) || (control == ori1)
 	|| (control == slti1) || (control == lw1) || (control == sw1) 
 	|| (control == beq1) || (control == bne1) || (control == addi1)) begin
-{
-	rs = din[10:8];
-	rt = din[7:5];
-	imm = din[4:0];
-}
+		rs = din[10:8];
+		rt = din[7:5];
+		imm = din[4:0];
 //test if jump instruction
 end else if (control == j1) begin 
-{
 	addr = din[10:0];
-}
 end else begin
-{
   //print an error message
-}
+
 
 
 
@@ -99,15 +92,19 @@ always @(posedge clk or posedge reset) begin
  result = 0;
  if(add2 == 1) begin
    result = rs + rt;
+   add2 = 0;
  end
  if(sub2 == 1) begin
    result = rs - rt;
+   sub2 = 0;
  end
  if(and2 == 1) begin
    result = rs & rt;
+   and2 = 0;
  end
  if(or2 == 1) begin
    result = rs | rt;
+   or2 = 0;
  end
  //*****GOTTA IMPLEMENT IMMEDIATE AND JUMP INSTRUCTIONS
  if(rs[2] == 0 | rt[2] == 0 | result[2] == 1) begin
