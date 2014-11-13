@@ -21,6 +21,7 @@
 // input line     
 input [15:0] din;
 
+
 reg [3:0] control;
 reg [2:0] function;
 reg [2:0] rs;
@@ -28,12 +29,21 @@ reg [2:0] rt;
 reg [2:0] rd;
 reg [3:0] result;
 
+//these are signals to send to the ALU after the opcodes come in
+reg [0] add;
+reg [0] sub;
+reg [0] and;
+reg [0] or;
+
+//assignment of current instruction values
 control = din[15:11]
 rs = din[10:8]
 rt = din[7:5]
 rd = din[5:3]
 function = din[2:0]
 
+
+//control block - sets control signals
 always @* begin
 
  case(control)
@@ -42,7 +52,7 @@ always @* begin
    add = 1;
 end
 
-//ALU functions
+//ALU Block - controls ALU functionality
 always @(posedge clk or posedge reset) begin
  result = 0;
  if(add == 1)
