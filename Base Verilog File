@@ -38,33 +38,65 @@ reg [0] and2;
 reg [0] or2;
 reg [0] xor2;
 
-//assignment of current instruction values
-control = din[15:11]
-funct = din[2:0]
-//Test if R instruction
-if((control == add1) || (control == sub1)
-	|| (control == and1) || (control == or1) || (control == xor1) 
-	|| (control == slt1)) begin
-	if((control == slt1) && (funct == slti)) begin
+//counter variables
+reg [4:0] counter;
+
+//control variable
+reg [0] pause;
+
+always @* begin
+	//assignment of current instruction values
+	control = din[15:11]
+	funct = din[2:0]
+	//Test if R instruction
+	if((control == add1) || (control == sub1)
+		|| (control == and1) || (control == or1) || (control == xor1) 
+		|| (control == slt1)) begin
+		if((control == slt1) && (funct == slti)) begin
+		end else begin
+			rs = din[10:8];
+			rt = din[7:5];
+			rd = din[5:3];
+		end
+	//test if Immediate instruction
+	end else if ((control == sll1) || (control == srl1) || (control == ori1)
+		|| (control == slt1) || (control == lw1) || (control == sw1) 
+		|| (control == beq1) || (control == bne1) || (control == addi1)) begin
+			rs = din[10:8];
+			rt = din[7:5];
+			imm = din[4:0];
+	//test if jump instruction
+	end else if (control == j1) begin 
+		addr = din[10:0];
 	end else begin
-		rs = din[10:8];
-		rt = din[7:5];
-		rd = din[5:3];
+	  //print an error message
+end
+
+  
+// program counter
+always @(posedge clk) begin
+	if(reset) counter <= 0;
+	else begin
+		counter <= counter + 1;
+		if(pause) begin counter <= counter; end
+		if(sclr) begin counter <= 0; end
 	end
-//test if Immediate instruction
-end else if ((control == sll1) || (control == srl1) || (control == ori1)
-	|| (control == slt1) || (control == lw1) || (control == sw1) 
-	|| (control == beq1) || (control == bne1) || (control == addi1)) begin
-		rs = din[10:8];
-		rt = din[7:5];
-		imm = din[4:0];
-//test if jump instruction
-end else if (control == j1) begin 
-	addr = din[10:0];
-end else begin
-  //print an error message
+end  
 
-
+  
+//instruction memory
+always @(posedge clk) begin
+	//case operated by a counter to cycle through the different instructions
+	case(counter)
+	
+	5'b00000: begin
+		instr_output <= 16'b0001011011011001;
+	end
+	5'b00001: begin
+		instr_output <= 16'b0101001011010101;
+	...
+	continue with all instructions
+end
 
 
 
@@ -115,6 +147,6 @@ always @(posedge clk or posedge reset) begin
  end
  if(rs[2] == 1 | rt[2] == 1 | result[2] == 0) begin
    //overflow again
- rd = result[2:0];
+ rd <= result[2:0];
  end
 end
