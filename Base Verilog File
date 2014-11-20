@@ -92,22 +92,22 @@ always @* begin
 
 //ALU Block - controls ALU functionality
 always @(posedge clk or posedge reset) begin
- result = 0;
+ result <= 0;
  if(add2 == 1) begin
-   result = rs + rt;
-   add2 = 0;
+   result <= rs + rt;
+   add2 <= 0;
  end
  if(sub2 == 1) begin
-   result = rs - rt;
-   sub2 = 0;
+   result <= rs - rt;
+   sub2 <= 0;
  end
  if(and2 == 1) begin
-   result = rs & rt;
-   and2 = 0;
+   result <= rs & rt;
+   and2 <= 0;
  end
  if(or2 == 1) begin
-   result = rs | rt;
-   or2 = 0;
+   result <= rs | rt;
+   or2 <= 0;
  end
  //*****GOTTA IMPLEMENT IMMEDIATE AND JUMP INSTRUCTIONS
  if(rs[2] == 0 | rt[2] == 0 | result[2] == 1) begin
