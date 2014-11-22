@@ -1,0 +1,18 @@
+//example 3-input muxmux
+module mux(din_0, din_1, din_2, sel, mux_out);
+input din_0, din_1, din_2, sel;
+output mux_out;
+reg mux_out;
+
+always @ (sel or din_0 or din_1 or din_2)
+begin: MUX
+  if(sel == 2'b00) begin
+      mux_out = din_0;
+  if(sel == 2'b01) begin
+      mux_out = din_1;
+  if(sel == 2'b10) begin
+      mux_out = din_2;
+  end
+end
+
+endmodule
