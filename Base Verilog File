@@ -52,7 +52,8 @@ always @* begin
 	if((control == add1) || (control == sub1)
 		|| (control == and1) || (control == or1) || (control == xor1) 
 		|| (control == slt1)) begin
-		if((control == slt1) && (funct == slti)) begin
+		//if its slti instead of slt don't set it here
+		if((control == slt1) && (funct == slti1)) begin
 		end else begin
 			rs = din[10:8];
 			rt = din[7:5];
