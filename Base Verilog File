@@ -99,6 +99,9 @@ always @(posedge clk) begin
 	continue with all instructions
 end
 
+//need register file
+
+//need data memory
 
 
 //control block - sets control signals
